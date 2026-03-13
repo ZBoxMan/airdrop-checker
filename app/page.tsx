@@ -1,15 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { getClient, chains } from '@/lib/viem-client'
-import { parseEther } from 'viem'
+import { getClient } from '@/lib/viem-client'
 
 interface ERC20Airdrop {
   id: string
   name: string
-  chain: keyof typeof chains
+  chain: string
   tokenAddress: `0x${string}`
-  minBalance?: string // 如 "1" 表示 1 token（带 decimals 处理）
+  minBalance?: string
   decimals?: number
   claimUrl: string
 }
@@ -125,15 +124,14 @@ export default function Home() {
             address: airdrop.tokenAddress,
             abi: erc20Abi,
             functionName: 'balanceOf',
-            args: [address],
+            args: [address as `0x${string}`],
           })
 
           const decimals = airdrop.decimals ?? 18
           const minRaw = airdrop.minBalance
-            ? (BigInt(airdrop.minBalance) * (10n ** BigInt(decimals)))
+            ? (BigInt(airdrop.minBalance) * (BigInt(10) ** BigInt(decimals)))
             : BigInt(0)
 
-          // simple: if balance >= minRaw => eligible
           if (rawBalance >= minRaw) {
             return airdrop
           }

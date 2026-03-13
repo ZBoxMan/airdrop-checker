@@ -1,4 +1,4 @@
-import { createPublicClient, http, Chain } from 'viem'
+import { createPublicClient, http } from 'viem'
 import { mainnet, arbitrum, optimism, zkSync, base } from 'viem/chains'
 
 const rpcMap: Record<string, string | undefined> = {
@@ -28,23 +28,23 @@ function getTransport(chainKey: string) {
 }
 
 export const clients = {
-  ethereum: createPublicClient<typeof mainnet>({
+  ethereum: createPublicClient({
     chain: mainnet,
     transport: getTransport('ethereum'),
   }),
-  arbitrum: createPublicClient<typeof arbitrum>({
+  arbitrum: createPublicClient({
     chain: arbitrum,
     transport: getTransport('arbitrum'),
   }),
-  optimism: createPublicClient<typeof optimism>({
+  optimism: createPublicClient({
     chain: optimism,
     transport: getTransport('optimism'),
   }),
-  zksync: createPublicClient<typeof zkSync>({
+  zksync: createPublicClient({
     chain: zkSync,
     transport: getTransport('zksync'),
   }),
-  base: createPublicClient<typeof base>({
+  base: createPublicClient({
     chain: base,
     transport: getTransport('base'),
   }),
